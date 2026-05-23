@@ -247,6 +247,7 @@ class TestCriterionContract:
 
         assert isinstance(result, CriterionResult)
         assert isinstance(result.result, (int, float))
+        assert result.result >= 0
         assert result.verdict is None or isinstance(result.verdict, str)
 
 
@@ -1114,6 +1115,12 @@ class TestStrictSpeechDurationCriterion:
         result = criterion.apply(audio, make_presentation([""]), "training-id", {})
 
         assert result.result == pytest.approx((300 / 360) ** 2)
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
 /home/engine/.bashrc: line 1: syntax error near unexpected token `('
 /home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
 /home/engine/.bashrc: line 1: syntax error near unexpected token `('
