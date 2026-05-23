@@ -222,6 +222,33 @@ class TestCriterionContract:
     def test_get_proportional_result(self, value, lower_bound, upper_bound, expected):
         assert get_proportional_result(value, lower_bound, upper_bound) == pytest.approx(expected)
 
+    @pytest.mark.parametrize(
+        "criterion, audio, presentation",
+        [
+            (
+                NumberSlidesCriterion(parameters={"minimal_allowed_slide_number": 1}, dependent_criteria=[]),
+                make_audio([[]]),
+                make_presentation(["один слайд"]),
+            ),
+            (
+                SpeechDurationCriterion(parameters={"minimal_allowed_duration": 10}, dependent_criteria=[]),
+                make_audio([[]], duration=20),
+                make_presentation(["слайд"]),
+            ),
+            (
+                FillersRatioCriterion(parameters={"fillers": ["ну"]}, dependent_criteria=[]),
+                make_audio([["ну"], ["слово"]], total_words=2),
+                make_presentation(["", ""]),
+            ),
+        ],
+    )
+    def test_apply_returns_criterion_result(self, criterion, audio, presentation):
+        result = criterion.apply(audio, presentation, "training-id", {})
+
+        assert isinstance(result, CriterionResult)
+        assert isinstance(result.result, (int, float))
+        assert result.verdict is None or isinstance(result.verdict, str)
+
 
 class TestComparisonSpeechSlidesCriterion:
     def test_default_slide_speech_threshold(self, monkeypatch):
@@ -1087,3 +1114,9 @@ class TestStrictSpeechDurationCriterion:
         result = criterion.apply(audio, make_presentation([""]), "training-id", {})
 
         assert result.result == pytest.approx((300 / 360) ** 2)
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
