@@ -10,12 +10,20 @@ from app.criteria import (
     FillersNumberCriterion,
     FillersRatioCriterion,
     LenTextOnSlideCriterion,
-    NumberSlidesCriterion
+    NumberSlidesCriterion,
+    NumberWordOnSlideCriterion,
+    SlidesCheckerCriterion,
+    SpeechDurationCriterion,
+    SpeechIsNotInDatabaseCriterion,
+    SpeechPaceCriterion,
+    StrictSpeechDurationCriterion,
 )
 from app.criteria.criterion_result import CriterionResult
 from app.criteria.utils import get_proportional_result
 import app.criteria.comparison_speech_slides.criterion as comparison_speech_slides_module
 import app.criteria.comparison_whole_speech.criterion as comparison_whole_speech_module
+import app.criteria.slides_checker.criterion as slides_checker_module
+import app.criteria.speech_is_not_in_database.criterion as speech_in_db_module
 
 
 def make_recognized_word(value: str):
@@ -180,6 +188,23 @@ class TestCriterionContract:
             FillersRatioCriterion(parameters={"fillers": ["ну"]}, dependent_criteria=[]),
             LenTextOnSlideCriterion(parameters={"minimal_number_words": 2}, dependent_criteria=[]),
             NumberSlidesCriterion(parameters={"minimal_allowed_slide_number": 1}, dependent_criteria=[]),
+            NumberWordOnSlideCriterion(parameters={"minimal_number_words": 1}, dependent_criteria=[]),
+            SlidesCheckerCriterion(parameters=make_slides_checker_parameters(), dependent_criteria=[]),
+            SpeechDurationCriterion(parameters={"minimal_allowed_duration": 1}, dependent_criteria=[]),
+            SpeechIsNotInDatabaseCriterion(parameters=make_speech_is_not_in_database_parameters(), dependent_criteria=[]),
+            SpeechPaceCriterion(
+                parameters={"minimal_allowed_pace": 50, "maximal_allowed_pace": 100},
+                dependent_criteria=[],
+            ),
+            StrictSpeechDurationCriterion(
+                parameters={
+                    "strict_minimal_allowed_duration": 1,
+                    "strict_maximal_allowed_duration": 200,
+                    "minimal_allowed_duration": 2,
+                    "maximal_allowed_duration": 100,
+                },
+                dependent_criteria=[],
+            ),
         ]
 
         for criterion in criterions:
